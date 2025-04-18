@@ -5,6 +5,7 @@ import com.debercrud.minicorecrud.repositorios.TareaRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -27,5 +28,10 @@ public class TareaServicioImplem implements TareaServicio{
     @Override
     public Tarea ObtenerTareaPorId(Long id) {
         return repositorio.findById(id).get();
+    }
+
+    @Override
+    public List<Tarea> BuscarPorRangoFechas(LocalDate fechaMin, LocalDate fechaMax) {
+        return repositorio.filtrarPorRangoFechas(fechaMin,fechaMax);
     }
 }

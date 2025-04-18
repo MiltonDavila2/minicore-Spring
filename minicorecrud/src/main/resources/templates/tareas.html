@@ -10,14 +10,19 @@
 <body>
 
 <nav class="navbar navbar-expand-md bg-dark navbar-dark">
-    <a class="navbar-brand" th:href="@{/}">Minicore</a>
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Minicore</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="collapse navbar-collapse" id="collapsibleNavbar">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/tareas}">Tareas</a>
-            </li>
-        </ul>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/tareas/filtradas}">Filtrar tareas</a>
+
+            </ul>
+        </div>
     </div>
 </nav>
 
@@ -37,12 +42,12 @@
         <thead class="table-dark">
         <tr>
             <th>ID</th>
+            <th>Proyecto</th>
             <th>Descripción</th>
             <th>Fecha Inicio</th>
             <th>Fecha Fin</th>
             <th>Días Estimados</th>
             <th>Estado</th>
-            <th>Proyecto</th>
             <th>Trabajador</th>
             <th>Acciones</th>
         </tr>
@@ -50,12 +55,12 @@
         <tbody>
         <tr th:each="tarea : ${tareas}">
             <td th:text="${tarea.id}">ID</td>
+            <td th:text="${tarea.proyecto.nombre_proyecto}">Proyecto</td>
             <td th:text="${tarea.descripcion}">Descripción</td>
-            <td th:text="${#temporals.format(tarea.fecha_inicio, 'yyyy-MM-dd')}">Fecha Inicio</td>
-            <td th:text="${#temporals.format(tarea.fecha_fin, 'yyyy-MM-dd')}">Fecha Fin</td>
+            <td th:text="${#temporals.format(tarea.fechai, 'yyyy-MM-dd')}">Fecha Inicio</td>
+            <td th:text="${#temporals.format(tarea.fechaf, 'yyyy-MM-dd')}">Fecha Fin</td>
             <td th:text="${tarea.dias_Estimados}">Días</td>
             <td th:text="${tarea.estado ? 'Completado' : 'En Proceso'}">Estado</td>
-            <td th:text="${tarea.proyecto.nombre_proyecto}">Proyecto</td>
             <td th:text="${tarea.trabajador.nombre + ' ' + tarea.trabajador.apellido}">Trabajador</td>
             <td>
                 <a th:href="@{/tareas/editar/{id}(id=${tarea.id})}" class="btn btn-info btn-sm">Editar</a>

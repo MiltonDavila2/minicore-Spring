@@ -11,6 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Controller
 public class TareaControlador {
 
@@ -82,10 +87,43 @@ public class TareaControlador {
         tareaQueyahabia.setDescripcion(tarea.getDescripcion());
         tareaQueyahabia.setEstado(tarea.isEstado());
         tareaQueyahabia.setDias_Estimados(tarea.getDias_Estimados());
-        tareaQueyahabia.setFecha_fin(tarea.getFecha_fin());
-        tareaQueyahabia.setFecha_inicio(tarea.getFecha_inicio());
+        tareaQueyahabia.setFechaf(tarea.getFechaf());
+        tareaQueyahabia.setFechai(tarea.getFechai());
         servicio.GuardarTarea(tareaQueyahabia);
         return "redirect:/tareas";
+    }
+
+    @GetMapping("/tareas/filtradas")
+    public String verTareasFiltradas(@RequestParam(required = false) String fechaMin,
+                                     @RequestParam(required = false) String fechaMax,
+                                     Model modelo){
+
+
+        List<Tarea> tareasFiltradas;
+        LocalDate hoy = LocalDate.now();
+        List<String> diasFaltantes;
+
+        if (fechaMin != null && fechaMax != null && !fechaMin.isEmpty() && !fechaMax.isEmpty()) {
+            LocalDate desde = LocalDate.parse(fechaMin);
+            LocalDate hasta = LocalDate.parse(fechaMax);
+            tareasFiltradas = servicio.BuscarPorRangoFechas(desde, hasta);
+        } else {
+            tareasFiltradas = servicio.ListarTareas();
+        }
+
+        diasFaltantes = tareasFiltradas.stream().map(t -> {
+            long dias = ChronoUnit.DAYS.between(hoy, t.getFechaf());
+            if (dias > 0) return "Faltan " + dias + " días";
+            else if (dias < 0) return "Atrasado " + Math.abs(dias) + " días";
+            else return "Vence hoy";
+        }).collect(Collectors.toList());
+
+        modelo.addAttribute("tareas", tareasFiltradas);
+        modelo.addAttribute("diferenciasDias", diasFaltantes);
+        modelo.addAttribute("fechaMin", fechaMin);
+        modelo.addAttribute("fechaMax", fechaMax);
+
+        return "tareas_filtradas";
     }
 
 
