@@ -42,7 +42,7 @@ public class ProyectoControlador {
         return "editar_proyecto";
     }
 
-    @PostMapping("/proyecto/{id}")
+    @PostMapping("/proyectos/{id}")
     public String GuardarEditarProyecto(@PathVariable Long id,@ModelAttribute("proyecto") Proyecto proyecto, Model modelo){
         Proyecto Proyectoexistente = servicio.ObtenerProyectoId(id);
         Proyectoexistente.setId(id);
