@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Tareas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <a class="navbar-brand" th:href="@{/}">Minicore</a>
+
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/tareas}">Tareas</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <br>
+    <div class="row">
+        <h1>Lista de Tareas</h1>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-lg-3">
+            <a th:href="@{/tareas/nuevo}" class="btn btn-primary btn-sm mb-3">Agregar Tarea</a>
+        </div>
+    </div>
+    <br>
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Descripción</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha Fin</th>
+            <th>Días Estimados</th>
+            <th>Estado</th>
+            <th>Proyecto</th>
+            <th>Trabajador</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="tarea : ${tareas}">
+            <td th:text="${tarea.id}">ID</td>
+            <td th:text="${tarea.descripcion}">Descripción</td>
+            <td th:text="${#temporals.format(tarea.fecha_inicio, 'yyyy-MM-dd')}">Fecha Inicio</td>
+            <td th:text="${#temporals.format(tarea.fecha_fin, 'yyyy-MM-dd')}">Fecha Fin</td>
+            <td th:text="${tarea.dias_Estimados}">Días</td>
+            <td th:text="${tarea.estado ? 'Completado' : 'En Proceso'}">Estado</td>
+            <td th:text="${tarea.proyecto.nombre_proyecto}">Proyecto</td>
+            <td th:text="${tarea.trabajador.nombre + ' ' + tarea.trabajador.apellido}">Trabajador</td>
+            <td>
+                <a th:href="@{/tareas/editar/{id}(id=${tarea.id})}" class="btn btn-info btn-sm">Editar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
+

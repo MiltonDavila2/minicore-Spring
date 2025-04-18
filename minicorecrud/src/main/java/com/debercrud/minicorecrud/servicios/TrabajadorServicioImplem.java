@@ -28,4 +28,9 @@ public class TrabajadorServicioImplem implements TrabajadorServicio{
     public Trabajador EncontrarTrabajadorPorID(Long id) {
         return repositorio.findById(id).get();
     }
+
+    @Override
+    public Trabajador actualizarTrabajador(Trabajador trabajador) {
+        return repositorio.save(trabajador);
+    }
 }

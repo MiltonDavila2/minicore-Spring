@@ -10,4 +10,6 @@ public interface TrabajadorServicio {
     public Trabajador GuardarTrabajador(Trabajador trabajador);
 
     public Trabajador EncontrarTrabajadorPorID(Long id);
+
+    public Trabajador actualizarTrabajador(Trabajador trabajador);
 }
