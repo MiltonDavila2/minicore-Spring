@@ -30,23 +30,47 @@ public class MinicorecrudApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 
-		Trabajador trabajador = new Trabajador("Milton", "Davila");
+		// Crear Trabajadores
+		Trabajador t1 = new Trabajador("Milton", "Davila");
+		Trabajador t2 = new Trabajador("Andrea", "Lopez");
+		Trabajador t3 = new Trabajador("Carlos", "Martinez");
 
-		servicioTrabajador.GuardarTrabajador(trabajador);
+		servicioTrabajador.GuardarTrabajador(t1);
+		servicioTrabajador.GuardarTrabajador(t2);
+		servicioTrabajador.GuardarTrabajador(t3);
 
-		Proyecto proyecto = new Proyecto("Banco Pichincha");
+		// Crear Proyectos
+		Proyecto p1 = new Proyecto("Banco Pichincha");
+		Proyecto p2 = new Proyecto("Core Systems");
+		Proyecto p3 = new Proyecto("App Móvil");
 
-		proyectoServicio.GuardarProyecto(proyecto);
+		proyectoServicio.GuardarProyecto(p1);
+		proyectoServicio.GuardarProyecto(p2);
+		proyectoServicio.GuardarProyecto(p3);
 
-		Trabajador trabajador_para_tarea = servicioTrabajador.EncontrarTrabajadorPorID(1L);
+		// Tareas con fechas pasadas
+		tareaServicio.GuardarTarea(new Tarea("Tarea pasada 1", 8, true, t1, p1,
+				LocalDate.of(2024, 12, 10), LocalDate.of(2024, 12, 20)));
 
-		Proyecto proyecto_para_tarea = proyectoServicio.ObtenerProyectoId(1L);
+		tareaServicio.GuardarTarea(new Tarea("Tarea pasada 2", 5, false, t2, p2,
+				LocalDate.of(2025, 1, 5), LocalDate.of(2025, 2, 10)));
 
-		LocalDate fechainicio = LocalDate.of(2025,1,29);
-		LocalDate fechafinal = LocalDate.now().plusDays(7);
+		tareaServicio.GuardarTarea(new Tarea("Tarea pasada 3", 6, true, t3, p3,
+				LocalDate.of(2025, 3, 1), LocalDate.of(2025, 3, 25)));
 
-		Tarea tarea = new Tarea("Proyecto Banco Pichincha",10,true,trabajador_para_tarea,proyecto_para_tarea, fechainicio,fechafinal);
+		// Tareas en curso
+		tareaServicio.GuardarTarea(new Tarea("Tarea actual 1", 4, true, t1, p2,
+				LocalDate.of(2025, 4, 10), LocalDate.of(2025, 4, 25)));
 
-		tareaServicio.GuardarTarea(tarea);
+		tareaServicio.GuardarTarea(new Tarea("Tarea actual 2", 3, false, t2, p3,
+				LocalDate.of(2025, 4, 15), LocalDate.of(2025, 4, 30)));
+
+		// Tareas futuras
+		tareaServicio.GuardarTarea(new Tarea("Tarea futura 1", 7, true, t3, p1,
+				LocalDate.of(2025, 5, 5), LocalDate.of(2025, 5, 20)));
+
+		tareaServicio.GuardarTarea(new Tarea("Tarea futura 2", 9, false, t1, p3,
+				LocalDate.of(2025, 6, 1), LocalDate.of(2025, 6, 15)));
 	}
 }
+
